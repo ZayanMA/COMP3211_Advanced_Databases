@@ -1,0 +1,363 @@
+\documentclass[11pt,a4paper]{article}
+
+% --------- Layout / Typography ----------
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{amsmath,amssymb}
+
+% --------- Lists / Tables ----------
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+
+% --------- Nice boxes ----------
+\usepackage[most]{tcolorbox}
+
+% --------- Section spacing ----------
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{1.0em}{0.5em}
+\titlespacing*{\subsection}{0pt}{0.8em}{0.35em}
+\titlespacing*{\subsubsection}{0pt}{0.6em}{0.25em}
+
+% --------- List styling (INDENTED, readable) ----------
+\setlist[itemize]{leftmargin=2.2em, label=\textbullet, itemsep=2pt, topsep=3pt}
+\setlist[enumerate]{leftmargin=2.4em, itemsep=2pt, topsep=3pt}
+
+% --------- Box styles ----------
+\tcbset{
+  colback=white,
+  colframe=black!60,
+  arc=2mm,
+  boxrule=0.4pt,
+  left=1.2mm,
+  right=1.2mm,
+  top=1mm,
+  bottom=1mm
+}
+\newtcolorbox{defbox}{title=\textbf{Definition}, fonttitle=\bfseries}
+\newtcolorbox{notebox}{title=\textbf{Note}, fonttitle=\bfseries}
+\newtcolorbox{exbox}{title=\textbf{Example / Intuition}, fonttitle=\bfseries}
+\newtcolorbox{opbox}{title=\textbf{Operations: what's meaningful?}, fonttitle=\bfseries}
+
+% --------- Document ----------
+\title{\textbf{COMP3211 Advanced Databases}\\[2pt]
+\large Data Types and Operations --- Clean Notes}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Big Picture}
+Advanced DBMSs must support \textbf{non-traditional data types} (temporal, spatial, multimedia) and provide suitable \textbf{operations} for querying them.
+A key theme: \textbf{not every operation makes sense for every type}, so systems must define meaningful operations (and avoid misleading ones).
+
+\section{Data Types in Databases}
+Common types covered:
+\begin{itemize}
+  \item \textbf{Numeric} (integers, reals)
+  \item \textbf{Character} (strings)
+  \item \textbf{Temporal} (time-oriented data)
+  \item \textbf{Spatial} (geometric data in 2D/3D)
+  \item \textbf{Text} (documents, semi/unstructured text)
+  \item \textbf{Image} (still images)
+  \item \textbf{Audio \& Video} (multimedia streams/files)
+\end{itemize}
+
+\section{Operations on Data}
+Typical operation families:
+\begin{itemize}
+  \item \textbf{Comparison:} equality, ordering, similarity
+  \item \textbf{Arithmetic:} addition, multiplication, etc.
+  \item \textbf{Fuzzy search / similarity:} approximate matching (especially for text/media)
+  \item \textbf{Information retrieval queries:} e.g.\ documents containing a word; images containing a feature
+\end{itemize}
+
+\begin{defbox}
+\textbf{Meaningful operation:} An operation is meaningful when its result has a clear, consistent interpretation for that data type.
+If an operation is undefined or ambiguous, it should not be treated as a normal operator.
+\end{defbox}
+
+\begin{opbox}
+\textbf{Units matter (weights vs numbers):}
+\begin{itemize}
+  \item $2\,\text{kg} + 2\,\text{kg}$ \ \ $\rightarrow$ meaningful (same unit, additive quantity)
+  \item $2\,\text{kg} \times 2\,\text{kg}$ \ \ $\rightarrow$ generally \textbf{not meaningful} in normal DB semantics (unit becomes kg$^2$)
+  \item $13 + 2\,\text{kg}$ \ \ $\rightarrow$ meaningless (incompatible kinds)
+  \item $13 \times 2\,\text{kg}$ \ \ $\rightarrow$ meaningful (scale a quantity by a factor)
+\end{itemize}
+
+\textbf{Media types:}
+\begin{itemize}
+  \item ``Compare two images for equality'' is usually not meaningful (tiny changes break equality).
+  \item ``Add two images'' is ambiguous unless the system defines a specific image-processing meaning.
+\end{itemize}
+\end{opbox}
+
+\subsection{Ordering: Total vs Partial}
+A common question for any type is: \textbf{is it ordered}, and what kind of order?
+
+\begin{defbox}
+\textbf{Total order:} any two values are comparable (for any $a,b$, either $a\le b$ or $b\le a$).\\
+\textbf{Partial order:} some pairs may be incomparable (neither $a\le b$ nor $b\le a$ holds).
+\end{defbox}
+
+\begin{notebox}
+Even if you \emph{can} impose an order (e.g.\ by ID), the key question is whether the order has \textbf{semantic meaning} or is just a convenience.
+\end{notebox}
+
+\section{Temporal Data}
+Temporal data adds the time dimension to support questions such as:
+\begin{itemize}
+  \item Average price of product $X$ during 1995
+  \item Month with the most copies sold of video $Y$
+  \item Treatment history of patient $Z$
+\end{itemize}
+
+\subsection{Characteristics of Time}
+Time can differ by:
+\begin{itemize}
+  \item \textbf{Structure:} linear; branching time (possible futures); directed acyclic graph; periodic/cyclic
+  \item \textbf{Boundedness:} unbounded; bounded with an origin; bounded at both ends
+\end{itemize}
+
+\subsection{Time Density (Discrete / Dense / Continuous)}
+Slides distinguish time models by how many time points exist between two points.
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}l X X X@{}}
+\toprule
+Model & Timeline resembles & Ordering property & Points between two points \\ \midrule
+Discrete & Integers ($\mathbb{Z}$) & Total order & Finite number of chronons \\
+Dense & Rational numbers ($\mathbb{Q}$) & Partial order & Infinite number of chronons \\
+Continuous & Real numbers ($\mathbb{R}$) & Total order & Infinite number of chronons \\
+\bottomrule
+\end{tabularx}
+
+\begin{defbox}
+\textbf{Chronon:} the smallest representable time unit (a fixed period) used by a system (e.g.\ 1 second, 1 minute).
+\end{defbox}
+
+\subsection{Granularity}
+Granularity = the resolution used when representing time.
+\begin{exbox}
+Event A at 11:00 and Event B at 15:00 on the same day:
+\begin{itemize}
+  \item If granularity = \textbf{1 day}, A and B occur in the same time unit $\Rightarrow$ no precedence is visible.
+  \item If granularity = \textbf{1 minute}, A precedes B clearly.
+\end{itemize}
+\end{exbox}
+
+\begin{notebox}
+The slides also highlight a distinction between:
+\begin{itemize}
+  \item \textbf{Sequence:} order in which events are recorded/considered
+  \item \textbf{Time:} actual temporal placement and distance
+\end{itemize}
+These can differ (e.g.\ logged later vs happened earlier).
+\end{notebox}
+
+\subsection{Storing Time in a Database}
+A database fact/event can have multiple time notions:
+
+\begin{itemize}
+  \item \textbf{Valid time:} when the fact is true in the real world
+  \item \textbf{Transaction time:} when the fact is current/stored in the DB and retrievable
+  \item \textbf{Bitemporal:} storing \emph{both} valid and transaction time
+\end{itemize}
+
+\begin{exbox}
+A correction scenario (intuition):
+\begin{itemize}
+  \item A fact could be valid from January, but only inserted into the DB in March.
+  \item Valid time captures reality; transaction time captures DB history.
+\end{itemize}
+\end{exbox}
+
+\section{Temporal SQL Extensions (TSQL)}
+Extensions mentioned:
+\begin{itemize}
+  \item \textbf{WHEN clause} (temporal conditions)
+  \item Timestamp retrieval
+  \item Retrieval of temporally ordered information
+  \item \texttt{TIME-SLICE} clause to specify a time domain
+  \item Modified aggregate functions via \texttt{GROUP BY}
+\end{itemize}
+
+\subsection{WHEN Clause}
+Format:
+\[
+\texttt{SELECT \{select-list\} FROM \{relations\} WHERE \{conditions\} WHEN \{temporal clause\}}
+\]
+
+Temporal comparison operators include:
+\begin{itemize}
+  \item BEFORE / AFTER
+  \item PRECEDES / FOLLOWS
+  \item DURING
+  \item EQUIVALENT
+  \item ADJACENT
+  \item OVERLAPS
+\end{itemize}
+
+\begin{notebox}
+These operators relate to \textbf{interval reasoning} (as in Allen's Interval Calculus): rather than comparing single timestamps, you compare \emph{interval relationships} (overlap, adjacency, containment, etc.).
+\end{notebox}
+
+\section{Spatial Data}
+Spatial data represents objects in space.
+
+\subsection{Spatial Data Types}
+Types listed:
+\begin{itemize}
+  \item Points
+  \item Regions
+  \item Boxes
+  \item Quadrangles
+  \item Polynomial surfaces
+  \item Vectors
+\end{itemize}
+
+\subsection{Common Spatial Operations}
+Operations listed:
+\begin{itemize}
+  \item Length / distance (where defined)
+  \item Intersection
+  \item Containment
+  \item Overlap
+  \item Centre computation
+\end{itemize}
+
+\subsection{Applications \& Properties of Interest}
+Main application areas:
+\begin{itemize}
+  \item Computer Aided Design (CAD)
+  \item Computer generated graphics
+  \item Geographic Information Systems (GIS)
+\end{itemize}
+
+Properties of interest:
+\begin{itemize}
+  \item \textbf{Connectivity} (what is linked/connected?)
+  \item \textbf{Adjacency} (what touches what?)
+  \item \textbf{Order} (arrangement/sequence in space)
+  \item \textbf{Metric relations} (distances, angles, areas)
+\end{itemize}
+
+\subsection{Why Spatial DB Performance is Hard (from slides)}
+\begin{itemize}
+  \item Objects can be highly complex
+  \item Data volumes can be very large
+  \item Real-time constraints may apply
+  \item Performance is not easy to achieve
+  \item Often accessed via specialised graphical front-ends (operator skill matters)
+  \item Query processing may not use standard SQL
+\end{itemize}
+
+\section{Multimedia Data}
+
+\subsection{Text Data}
+Text may be:
+\begin{itemize}
+  \item Already machine-readable (word processors, spreadsheets, etc.)
+  \item Extracted via OCR
+\end{itemize}
+
+Key issue: text is \textbf{essentially unstructured} $\Rightarrow$ retrieval needs an index:
+\begin{itemize}
+  \item Human-built index, or
+  \item Automatically built \textbf{inverted list} (index of significant words $\rightarrow$ documents containing them)
+\end{itemize}
+
+\begin{defbox}
+\textbf{Inverted index / inverted list:} maps each word (term) to the set of documents that contain it, enabling fast queries like “find all documents containing word $w$”.
+\end{defbox}
+
+Markup languages add structure:
+\begin{itemize}
+  \item HTML (web)
+  \item XML / SGML (portable documents with structured data; can define new markup languages)
+\end{itemize}
+
+DB support mentioned:
+\begin{itemize}
+  \item \textbf{CLOBs} (Character Large Objects) for storing text documents
+  \item Text search and retrieval facilities
+\end{itemize}
+
+\subsection{Document-Style Queries (Motivation)}
+Typical useful queries:
+\begin{itemize}
+  \item Legal documents concerning client “Jones”
+  \item Suspects with false teeth who have been interviewed
+  \item Articles on “databases”
+\end{itemize}
+
+\subsection{Image Data}
+Examples:
+\begin{itemize}
+  \item X-rays, maps, photographs
+\end{itemize}
+
+Storage:
+\begin{itemize}
+  \item Stored as \textbf{BLOBs} (Binary Large Objects)
+  \item No attached semantics by default (the DB stores bits, not meaning)
+\end{itemize}
+
+Image databases need support for:
+\begin{itemize}
+  \item Image analysis and pattern recognition
+  \item Image structuring and understanding
+  \item Spatial reasoning and image information retrieval
+\end{itemize}
+
+\begin{defbox}
+\textbf{QBIC (Query By Image Content):} retrieve images using content features (e.g.\ colour/texture/shape) rather than only filenames/labels.
+\end{defbox}
+
+\subsection{Audio Data}
+Digitised audio:
+\begin{itemize}
+  \item Formats: WAV, MP3
+  \item Consumes large storage; compression commonly used
+\end{itemize}
+
+MIDI:
+\begin{itemize}
+  \item More compact than digitised audio
+  \item Stored as instruction sequences (e.g.\ \texttt{Note\_On}, \texttt{Note\_Off}, \texttt{Increase\_Volume})
+  \item Interpreted by a synthesiser
+\end{itemize}
+
+\subsection{Video Data}
+Video characteristics:
+\begin{itemize}
+  \item Extremely space-hungry
+  \item Stored as a sequence of frames (each frame can be $>$ 1MB)
+  \item Playback typically 24--30 fps
+\end{itemize}
+
+Audio-video integration:
+\begin{itemize}
+  \item Interleaved file structures coordinate time sequencing
+  \item Examples: Microsoft AVI, Apple QuickTime
+\end{itemize}
+
+\section{Quick Consolidation (What to Remember)}
+\begin{itemize}
+  \item Different data types $\Rightarrow$ different meaningful operations.
+  \item Ordering matters: total vs partial order; semantic vs convenience order.
+  \item Temporal: structure, boundedness, density (discrete/dense/continuous), granularity, valid vs transaction time.
+  \item Spatial: specialised types + geometry operations; large/complex data makes performance hard.
+  \item Multimedia:
+    \begin{itemize}
+      \item Text needs indexing (inverted index); markup adds structure (HTML/XML).
+      \item Images are BLOBs with no semantics unless analysed; QBIC = content-based retrieval.
+      \item Audio/video are storage-heavy; compression and timing/sync are key.
+    \end{itemize}
+\end{itemize}
+
+\end{document}
