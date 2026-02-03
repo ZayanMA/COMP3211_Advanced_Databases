@@ -1,0 +1,1110 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Lecture 2 Data Types and Operations - COMP 3211 - Advanced Databases</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lecture-2-data-types-and-operations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="COMP 3211 - Advanced Databases" class="md-header__button md-logo" aria-label="COMP 3211 - Advanced Databases" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            COMP 3211 - Advanced Databases
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lecture 2 Data Types and Operations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="COMP 3211 - Advanced Databases" class="md-nav__button md-logo" aria-label="COMP 3211 - Advanced Databases" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    COMP 3211 - Advanced Databases
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lecture 2 Data Types and Operations
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lecture 2 Data Types and Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operations-on-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operations on Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporal-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporal-sql-extensions-tsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal SQL Extensions (TSQL)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spatial-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spatial Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-spatial-db-performance-is-hard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Spatial DB Performance is Hard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multimedia-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multimedia Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary - Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operations-on-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operations on Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporal-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporal-sql-extensions-tsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal SQL Extensions (TSQL)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spatial-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spatial Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-spatial-db-performance-is-hard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Spatial DB Performance is Hard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multimedia-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multimedia Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary - Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="lecture-2-data-types-and-operations">Lecture 2 — Data Types and Operations</h1>
+<h2 id="overview">Overview</h2>
+<p>Advanced DBMSs must support <strong>non-traditional data types</strong> (temporal,
+spatial, multimedia) and provide suitable <strong>operations</strong> for querying
+them. A key theme: <strong>not every operation makes sense for every type</strong>,
+so systems must define meaningful operations (and avoid misleading
+ones).</p>
+<h2 id="data-types">Data Types</h2>
+<p>Common types covered:</p>
+<ul>
+<li>
+<p><strong>Numeric</strong> (integers, reals)</p>
+</li>
+<li>
+<p><strong>Character</strong> (strings)</p>
+</li>
+<li>
+<p><strong>Temporal</strong> (time-oriented data)</p>
+</li>
+<li>
+<p><strong>Spatial</strong> (geometric data in 2D/3D)</p>
+</li>
+<li>
+<p><strong>Text</strong> (documents, semi/unstructured text)</p>
+</li>
+<li>
+<p><strong>Image</strong> (still images)</p>
+</li>
+<li>
+<p><strong>Audio &amp; Video</strong> (multimedia streams/files)</p>
+</li>
+</ul>
+<h2 id="operations-on-data">Operations on Data</h2>
+<p>Typical operation families:</p>
+<ul>
+<li>
+<p><strong>Comparison:</strong> equality, ordering, similarity</p>
+</li>
+<li>
+<p><strong>Arithmetic:</strong> addition, multiplication, etc.</p>
+</li>
+<li>
+<p><strong>Fuzzy search / similarity:</strong> approximate matching (especially for
+    text/media)</p>
+</li>
+<li>
+<p><strong>Information retrieval queries:</strong> e.g. documents containing a word;
+    images containing a feature</p>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Definition</p>
+<p><strong>Meaningful operation</strong>: An operation is meaningful when its result has
+a clear, consistent interpretation for that data type. If an operation
+is undefined or ambiguous, it should not be treated as a normal
+operator.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Operations: what's meaningful?</p>
+<p><strong>Units matter (weights vs numbers):</strong></p>
+<ul>
+<li>
+<p><span class="arithmatex">\(2\,\text{kg} + 2\,\text{kg}\)</span>   <span class="arithmatex">\(\rightarrow\)</span> meaningful (same unit,
+    additive quantity)</p>
+</li>
+<li>
+<p><span class="arithmatex">\(2\,\text{kg} \times 2\,\text{kg}\)</span>   <span class="arithmatex">\(\rightarrow\)</span> generally <strong>not
+    meaningful</strong> in normal DB semantics (unit becomes kg<span class="arithmatex">\(^2\)</span>)</p>
+</li>
+<li>
+<p><span class="arithmatex">\(13 + 2\,\text{kg}\)</span>   <span class="arithmatex">\(\rightarrow\)</span> meaningless (incompatible kinds)</p>
+</li>
+<li>
+<p><span class="arithmatex">\(13 \times 2\,\text{kg}\)</span>   <span class="arithmatex">\(\rightarrow\)</span> meaningful (scale a
+    quantity by a factor)</p>
+</li>
+</ul>
+<p><strong>Media types:</strong></p>
+<ul>
+<li>
+<p>"Compare two images for equality" is usually not meaningful (tiny
+    changes break equality).</p>
+</li>
+<li>
+<p>"Add two images" is ambiguous unless the system defines a specific
+    image-processing meaning.</p>
+</li>
+</ul>
+</div>
+<h3 id="ordering-total-vs-partial-orders">Ordering: Total vs Partial Orders</h3>
+<p>A common question for any type is: <strong>is it ordered</strong>, and what kind of
+order?</p>
+<div class="admonition info">
+<p class="admonition-title">Definition</p>
+<p><strong>Total order:</strong> any two values are comparable (for any <span class="arithmatex">\(a,b\)</span>, either
+<span class="arithmatex">\(a\le b\)</span> or <span class="arithmatex">\(b\le a\)</span>).<br />
+<strong>Partial order:</strong> some pairs may be incomparable (neither <span class="arithmatex">\(a\le b\)</span> nor
+<span class="arithmatex">\(b\le a\)</span> holds).</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Even if you <em>can</em> impose an order (e.g. by ID), the key question is
+whether the order has <strong>semantic meaning</strong> or is just a convenience.</p>
+</div>
+<h2 id="temporal-data">Temporal Data</h2>
+<p>Temporal data adds the time dimension to support questions such as:</p>
+<ul>
+<li>
+<p>Average price of product <span class="arithmatex">\(X\)</span> during 1995</p>
+</li>
+<li>
+<p>Month with the most copies sold of video <span class="arithmatex">\(Y\)</span></p>
+</li>
+<li>
+<p>Treatment history of patient <span class="arithmatex">\(Z\)</span></p>
+</li>
+</ul>
+<h3 id="characteristics-of-time">Characteristics of Time</h3>
+<p>Time can differ by:</p>
+<ul>
+<li>
+<p><strong>Structure:</strong> linear; branching time (possible futures); directed
+    acyclic graph; periodic/cyclic</p>
+</li>
+<li>
+<p><strong>Boundedness:</strong> unbounded; bounded with an origin; bounded at both
+    ends</p>
+</li>
+</ul>
+<h3 id="time-density-models">Time Density Models</h3>
+<p>Slides distinguish time models by how many time points exist between two
+points.</p>
+<p><strong>Model</strong>        Timeline resembles                Ordering property   Points between two points</p>
+<hr />
+<p><strong>Discrete</strong>     Integers (<span class="arithmatex">\(\mathbb{Z}\)</span>)           Total order         Finite number of chronons
+  <strong>Dense</strong>        Rational numbers (<span class="arithmatex">\(\mathbb{Q}\)</span>)   Partial order       Infinite number of chronons
+  <strong>Continuous</strong>   Real numbers (<span class="arithmatex">\(\mathbb{R}\)</span>)       Total order         Infinite number of chronons</p>
+<div class="admonition info">
+<p class="admonition-title">Definition</p>
+<p><strong>Chronon:</strong> the smallest representable time unit (a fixed period) used
+by a system (e.g. 1 second, 1 minute).</p>
+</div>
+<h3 id="time-granularity">Time Granularity</h3>
+<p>Granularity = the resolution used when representing time.</p>
+<div class="admonition info">
+<p class="admonition-title">Example / Intuition</p>
+<p>Event A at 11:00 and Event B at 15:00 on the same day:</p>
+<ul>
+<li>
+<p>If granularity = <strong>1 day</strong>, A and B occur in the same time unit
+    <span class="arithmatex">\(\Rightarrow\)</span> no precedence is visible.</p>
+</li>
+<li>
+<p>If granularity = <strong>1 minute</strong>, A precedes B clearly.</p>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The slides also highlight a distinction between:</p>
+<ul>
+<li>
+<p><strong>Sequence:</strong> order in which events are recorded/considered</p>
+</li>
+<li>
+<p><strong>Time:</strong> actual temporal placement and distance</p>
+</li>
+</ul>
+<p>These can differ (e.g. logged later vs happened earlier).</p>
+</div>
+<h3 id="temporal-data-storage">Temporal Data Storage</h3>
+<p>A database fact/event can have multiple time notions:</p>
+<ul>
+<li>
+<p><strong>Valid time:</strong> when the fact is true in the real world</p>
+</li>
+<li>
+<p><strong>Transaction time:</strong> when the fact is current/stored in the DB and
+    retrievable</p>
+</li>
+<li>
+<p><strong>Bitemporal:</strong> storing <em>both</em> valid and transaction time</p>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Example / Intuition</p>
+<p>A correction scenario (intuition):</p>
+<ul>
+<li>
+<p>A fact could be valid from January, but only inserted into the DB in
+    March.</p>
+</li>
+<li>
+<p>Valid time captures reality; transaction time captures DB history.</p>
+</li>
+</ul>
+</div>
+<h2 id="temporal-sql-extensions-tsql">Temporal SQL Extensions (TSQL)</h2>
+<p>Extensions mentioned:</p>
+<ul>
+<li>
+<p><strong>WHEN clause</strong> (temporal conditions)</p>
+</li>
+<li>
+<p>Timestamp retrieval</p>
+</li>
+<li>
+<p>Retrieval of temporally ordered information</p>
+</li>
+<li>
+<p><code>TIME-SLICE</code> clause to specify a time domain</p>
+</li>
+<li>
+<p>Modified aggregate functions via <code>GROUP BY</code></p>
+</li>
+</ul>
+<h3 id="the-when-clause">The WHEN Clause</h3>
+<p>Format:</p>
+<pre><code class="language-sql">SELECT {select-list}
+FROM {relations}
+WHERE {conditions}
+WHEN {temporal clause}
+</code></pre>
+<p>Temporal comparison operators include:</p>
+<ul>
+<li>
+<p>BEFORE / AFTER</p>
+</li>
+<li>
+<p>PRECEDES / FOLLOWS</p>
+</li>
+<li>
+<p>DURING</p>
+</li>
+<li>
+<p>EQUIVALENT</p>
+</li>
+<li>
+<p>ADJACENT</p>
+</li>
+<li>
+<p>OVERLAPS</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These operators relate to <strong>interval reasoning</strong> (as in Allen's Interval
+Calculus): rather than comparing singletimestamps, you compare
+<em>interval relationships</em> (overlap, adjacency, containment, etc.).</p>
+</div>
+<h2 id="spatial-data">Spatial Data</h2>
+<p>Spatial data represents objects in space.</p>
+<h3 id="spatial-data-types">Spatial Data Types</h3>
+<p>Types listed:</p>
+<ul>
+<li>
+<p>Points</p>
+</li>
+<li>
+<p>Regions</p>
+</li>
+<li>
+<p>Boxes</p>
+</li>
+<li>
+<p>Quadrangles</p>
+</li>
+<li>
+<p>Polynomial surfaces</p>
+</li>
+<li>
+<p>Vectors</p>
+</li>
+</ul>
+<h3 id="spatial-operations">Spatial Operations</h3>
+<p>Operations listed:</p>
+<ul>
+<li>
+<p>Length / distance (where defined)</p>
+</li>
+<li>
+<p>Intersection</p>
+</li>
+<li>
+<p>Containment</p>
+</li>
+<li>
+<p>Overlap</p>
+</li>
+<li>
+<p>Centre computation</p>
+</li>
+</ul>
+<h3 id="applications-properties">Applications &amp; Properties</h3>
+<p>Main application areas:</p>
+<ul>
+<li>
+<p>Computer Aided Design (CAD)</p>
+</li>
+<li>
+<p>Computer generated graphics</p>
+</li>
+<li>
+<p>Geographic Information Systems (GIS)</p>
+</li>
+</ul>
+<p>Properties of interest:</p>
+<ul>
+<li>
+<p><strong>Connectivity</strong> (what is linked/connected?)</p>
+</li>
+<li>
+<p><strong>Adjacency</strong> (what touches what?)</p>
+</li>
+<li>
+<p><strong>Order</strong> (arrangement/sequence in space)</p>
+</li>
+<li>
+<p><strong>Metric relations</strong> (distances, angles, areas)</p>
+</li>
+</ul>
+<h2 id="why-spatial-db-performance-is-hard">Why Spatial DB Performance is Hard</h2>
+<ul>
+<li>
+<p>Objects can be highly complex</p>
+</li>
+<li>
+<p>Data volumes can be very large</p>
+</li>
+<li>
+<p>Real-time constraints may apply</p>
+</li>
+<li>
+<p>Performance is not easy to achieve</p>
+</li>
+<li>
+<p>Often accessed via specialised graphical front-ends (operator skill
+    matters)</p>
+</li>
+<li>
+<p>Query processing may not use standard SQL</p>
+</li>
+</ul>
+<h2 id="multimedia-data">Multimedia Data</h2>
+<h3 id="text-data">Text Data</h3>
+<p>Text may be:</p>
+<ul>
+<li>
+<p>Already machine-readable (word processors, spreadsheets, etc.)</p>
+</li>
+<li>
+<p>Extracted via OCR</p>
+</li>
+</ul>
+<p>Key issue: text is <strong>essentially unstructured</strong> <span class="arithmatex">\(\Rightarrow\)</span> retrieval
+needs an index:</p>
+<ul>
+<li>
+<p>Human-built index, or</p>
+</li>
+<li>
+<p>Automatically built <strong>inverted list</strong> (index of significant words
+    <span class="arithmatex">\(\rightarrow\)</span> documents containing them)</p>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Definition</p>
+<p><strong>Inverted index / inverted list:</strong> maps each word (term) to the set of
+documents that contain it, enabling fast queries like "find all
+documents containing word <span class="arithmatex">\(w\)</span>".</p>
+</div>
+<p>Markup languages add structure:</p>
+<ul>
+<li>
+<p>HTML (web)</p>
+</li>
+<li>
+<p>XML / SGML (portable documents with structured data; can define new
+    markup languages)</p>
+</li>
+</ul>
+<p>DB support mentioned:</p>
+<ul>
+<li>
+<p><strong>CLOBs</strong> (Character Large Objects) for storing text documents</p>
+</li>
+<li>
+<p>Text search and retrieval facilities</p>
+</li>
+</ul>
+<h3 id="document-style-queries-motivation">Document-Style Queries (Motivation)</h3>
+<p>Typical useful queries:</p>
+<ul>
+<li>
+<p>Legal documents concerning client "Jones"</p>
+</li>
+<li>
+<p>Suspects with false teeth who have been interviewed</p>
+</li>
+<li>
+<p>Articles on "databases"</p>
+</li>
+</ul>
+<h3 id="image-data">Image Data</h3>
+<p>Examples:</p>
+<ul>
+<li>X-rays, maps, photographs</li>
+</ul>
+<p>Storage:</p>
+<ul>
+<li>
+<p>Stored as <strong>BLOBs</strong> (Binary Large Objects)</p>
+</li>
+<li>
+<p>No attached semantics by default (the DB stores bits, not meaning)</p>
+</li>
+</ul>
+<p>Image databases need support for:</p>
+<ul>
+<li>
+<p>Image analysis and pattern recognition</p>
+</li>
+<li>
+<p>Image structuring and understanding</p>
+</li>
+<li>
+<p>Spatial reasoning and image information retrieval</p>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Definition</p>
+<p><strong>QBIC (Query By Image Content):</strong> retrieve images using content
+features (e.g. colour/texture/shape) rather than only filenames/labels.</p>
+</div>
+<h3 id="audio-data">Audio Data</h3>
+<p>Digitised audio:</p>
+<ul>
+<li>
+<p>Formats: WAV, MP3</p>
+</li>
+<li>
+<p>Consumes large storage; compression commonly used</p>
+</li>
+</ul>
+<p>MIDI:</p>
+<ul>
+<li>
+<p>More compact than digitised audio</p>
+</li>
+<li>
+<p>Stored as instruction sequences (e.g. <code>Note_On</code>, <code>Note_Off</code>,
+    <code>Increase_Volume</code>)</p>
+</li>
+<li>
+<p>Interpreted by a synthesiser</p>
+</li>
+</ul>
+<h3 id="video-data">Video Data</h3>
+<p>Video characteristics:</p>
+<ul>
+<li>
+<p>Extremely space-hungry</p>
+</li>
+<li>
+<p>Stored as a sequence of frames (each frame can be <span class="arithmatex">\(&gt;\)</span> 1MB)</p>
+</li>
+<li>
+<p>Playback typically 24--30 fps</p>
+</li>
+</ul>
+<p>Audio-video integration:</p>
+<ul>
+<li>
+<p>Interleaved file structures coordinate time sequencing</p>
+</li>
+<li>
+<p>Examples: Microsoft AVI, Apple QuickTime</p>
+</li>
+</ul>
+<h2 id="summary-key-takeaways">Summary - Key Takeaways</h2>
+<ul>
+<li>
+<p>Different data types <span class="arithmatex">\(\Rightarrow\)</span> different meaningful operations.</p>
+</li>
+<li>
+<p>Ordering matters: total vs partial order; semantic vs convenience
+    order.</p>
+</li>
+<li>
+<p>Temporal: structure, boundedness, density
+    (discrete/dense/continuous), granularity, valid vs transaction time.</p>
+</li>
+<li>
+<p>Spatial: specialised types + geometry operations; large/complex data
+    makes performance hard.</p>
+</li>
+<li>
+<p>Multimedia:</p>
+<ul>
+<li>
+<p>Text needs indexing (inverted index); markup adds structure
+    (HTML/XML).</p>
+</li>
+<li>
+<p>Images are BLOBs with no semantics unless analysed; QBIC =
+    content-based retrieval.</p>
+</li>
+<li>
+<p>Audio/video are storage-heavy; compression and timing/sync are
+    key.</p>
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.sections"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
