@@ -8,7 +8,7 @@ theme:
 
 nav:
   - Home: index.md
-  - Lecture 2 Data Types and Operations: lecture_2.md
+  - Data Types and Operations: data_types_and_operations.md
 
 markdown_extensions:
   - admonition

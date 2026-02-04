@@ -1,4 +1,4 @@
-# Lecture 2 — Data Types and Operations
+# Data Types and Operations
 
 
 ## Overview
