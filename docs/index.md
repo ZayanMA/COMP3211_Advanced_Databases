@@ -1,17 +1,28 @@
-# Welcome to MkDocs
+# COMP3211 — Advanced Databases Notes
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+These notes are **AI-drafted, then human-refined**.  
+They aim to be concise, accurate, and aligned to the lecture content.
 
-## Commands
+---
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## How to use this site
 
-## Project layout
+- Use the **left sidebar** to navigate between lectures.
+- Use the **Contents** panel on the right to jump within a lecture page.
+- Code blocks are used for SQL / pseudocode; maths is used for definitions and formal notation.
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+---
+
+## Source + status
+
+- Module: **COMP3211 Advanced Databases**
+- Status: **Work in progress** — pages will be added/updated as the course progresses.
+
+---
+
+## Quick links
+
+- Repository: [GitHub](https://github.com/ZayanMA/COMP3211_Advanced_Databases/)
+
+## Notes
+-   [Data Types and Operations](data_types_and_operations.md)
