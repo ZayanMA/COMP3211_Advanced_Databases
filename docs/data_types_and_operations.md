@@ -33,9 +33,9 @@ Typical operation families:
 
 -   **Comparison:** equality, ordering, similarity
 
--   **Arithmetic:** addition, multiplication, etc.
+-   **Arithmetic:** addition, multiplication, concatenating strings etc.
 
--   **Fuzzy search / similarity:** approximate matching (especially for
+-   **Fuzzy search / similarity:** regex / approximate matching (especially for
     text/media)
 
 -   **Information retrieval queries:** e.g. documents containing a word;
@@ -63,8 +63,7 @@ Typical operation families:
 
     **Media types:**
 
-    -   "Compare two images for equality" is usually not meaningful (tiny
-        changes break equality).
+    -   "Compare two images for equality" can be meaningful, to see if they are the same object.
 
     -   "Add two images" is ambiguous unless the system defines a specific
         image-processing meaning.
@@ -100,21 +99,28 @@ Temporal data adds the time dimension to support questions such as:
 Time can differ by:
 
 -   **Structure:** linear; branching time (possible futures); directed
-    acyclic graph; periodic/cyclic
+    acyclic graph (merge together at some point in time but then split out again); periodic/cyclic (Different cycles: 24 hours, monthly, yearly)
 
--   **Boundedness:** unbounded; bounded with an origin; bounded at both
+-   **Boundedness:** unbounded (like real numbers); bounded with an origin (UNIX time start); bounded at both (UNIX time start and end 1970-2038 (32 bit))
     ends
 
 ### Time Density Models
 
-Slides distinguish time models by how many time points exist between two
+Time models are distinguished by how many time points exist between two
 points.
 
-  **Model**        Timeline resembles                Ordering property   Points between two points
-  ---------------- --------------------------------- ------------------- -----------------------------
-  **Discrete**     Integers ($\mathbb{Z}$)           Total order         Finite number of chronons
-  **Dense**        Rational numbers ($\mathbb{Q}$)   Partial order       Infinite number of chronons
-  **Continuous**   Real numbers ($\mathbb{R}$)       Total order         Infinite number of chronons
+  **Discrete**  
+  - The Timeline is isomorphic to the integers. Integers have [total order](#ordering-total-vs-partial-orders).
+  - Composed of fixed periods termed chronons.
+  - Between each pair of chronons is a __finite__ number of chronons.  
+
+  **Dense**  
+  - Timeline is isomorphic to rational numbers. Rational numbers have a [partial order](#ordering-total-vs-partial-orders)
+  - Between each pair of chronons is an __infinite__ number of other chronons.  
+
+  **Continuous**  
+  - Timeline is isomorphic to real numbers. Real numbers have a [total order](#ordering-total-vs-partial-orders)
+  - Between each pair of chronons is an __infinite__ number of other chronons
 
 !!! info "Definition"
     **Chronon:** the smallest representable time unit (a fixed period) used
@@ -133,7 +139,7 @@ Granularity = the resolution used when representing time.
     -   If granularity = **1 minute**, A precedes B clearly.
 
 !!! note "Note"
-    The slides also highlight a distinction between:
+    Key distinction between:
 
     -   **Sequence:** order in which events are recorded/considered
 
@@ -159,6 +165,8 @@ A database fact/event can have multiple time notions:
         March.
 
     -   Valid time captures reality; transaction time captures DB history.
+
+There is no standard extension to SQL for dealing with time related problems. Most vendors have their own ways of handling this.
 
 ## Temporal SQL Extensions (TSQL)
 
@@ -200,7 +208,7 @@ Temporal comparison operators include:
 
 !!! note "Note"
     These operators relate to **interval reasoning** (as in Allen's Interval
-    Calculus): rather than comparing singletimestamps, you compare
+    Calculus): rather than comparing single timestamps, you compare
     *interval relationships* (overlap, adjacency, containment, etc.).
 
 ## Spatial Data
@@ -209,33 +217,33 @@ Spatial data represents objects in space.
 
 ### Spatial Data Types
 
-Types listed:
+Types include:
 
 -   Points
 
 -   Regions
 
--   Boxes
+    -   Boxes
 
--   Quadrangles
+    -   Quadrangles
 
--   Polynomial surfaces
+    -   Polynomial surfaces
 
 -   Vectors
 
 ### Spatial Operations
 
-Operations listed:
+Operations Include:
 
--   Length / distance (where defined)
+-   Length
 
--   Intersection
+-   Intersection (Do these pair of bounded lines intersect?)
 
--   Containment
+-   Containment (Does this point lie in this region?)
 
--   Overlap
+-   Overlap (Do these shapes overlap?)
 
--   Centre computation
+-   Centre (Geometric centre of a shape)
 
 ### Applications & Properties
 
@@ -280,12 +288,12 @@ Text may be:
 
 -   Already machine-readable (word processors, spreadsheets, etc.)
 
--   Extracted via OCR
+-   Extracted via OCR (For Scanned Text, sometimes image is needed in addition to the text so OCR may not be useful)
 
 Key issue: text is **essentially unstructured** $\Rightarrow$ retrieval
 needs an index:
 
--   Human-built index, or
+-   Human operator index, or
 
 -   Automatically built **inverted list** (index of significant words
     $\rightarrow$ documents containing them)
@@ -299,12 +307,13 @@ Markup languages add structure:
 
 -   HTML (web)
 
--   XML / SGML (portable documents with structured data; can define new
+XML / SGML (portable documents with structured data; can define new
     markup languages)
 
-DB support mentioned:
+Character Large Objects:
 
 -   **CLOBs** (Character Large Objects) for storing text documents
+- Commonly supported by vendors
 
 -   Text search and retrieval facilities
 
