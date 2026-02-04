@@ -568,10 +568,10 @@ ones).</p>
 <p><strong>Comparison:</strong> equality, ordering, similarity</p>
 </li>
 <li>
-<p><strong>Arithmetic:</strong> addition, multiplication, etc.</p>
+<p><strong>Arithmetic:</strong> addition, multiplication, concatenating strings etc.</p>
 </li>
 <li>
-<p><strong>Fuzzy search / similarity:</strong> approximate matching (especially for
+<p><strong>Fuzzy search / similarity:</strong> regex / approximate matching (especially for
     text/media)</p>
 </li>
 <li>
@@ -609,8 +609,7 @@ operator.</p>
 <p><strong>Media types:</strong></p>
 <ul>
 <li>
-<p>"Compare two images for equality" is usually not meaningful (tiny
-    changes break equality).</p>
+<p>"Compare two images for equality" can be meaningful, to see if they are the same object.</p>
 </li>
 <li>
 <p>"Add two images" is ambiguous unless the system defines a specific
@@ -651,21 +650,26 @@ whether the order has <strong>semantic meaning</strong> or is just a convenience
 <ul>
 <li>
 <p><strong>Structure:</strong> linear; branching time (possible futures); directed
-    acyclic graph; periodic/cyclic</p>
+    acyclic graph (merge together at some point in time but then split out again); periodic/cyclic (Different cycles: 24 hours, monthly, yearly)</p>
 </li>
 <li>
-<p><strong>Boundedness:</strong> unbounded; bounded with an origin; bounded at both
+<p><strong>Boundedness:</strong> unbounded (like real numbers); bounded with an origin (UNIX time start); bounded at both (UNIX time start and end 1970-2038 (32 bit))
     ends</p>
 </li>
 </ul>
 <h3 id="time-density-models">Time Density Models</h3>
-<p>Slides distinguish time models by how many time points exist between two
+<p>Time models are distinguished by how many time points exist between two
 points.</p>
-<p><strong>Model</strong>        Timeline resembles                Ordering property   Points between two points</p>
-<hr />
-<p><strong>Discrete</strong>     Integers (<span class="arithmatex">\(\mathbb{Z}\)</span>)           Total order         Finite number of chronons
-  <strong>Dense</strong>        Rational numbers (<span class="arithmatex">\(\mathbb{Q}\)</span>)   Partial order       Infinite number of chronons
-  <strong>Continuous</strong>   Real numbers (<span class="arithmatex">\(\mathbb{R}\)</span>)       Total order         Infinite number of chronons</p>
+<p><strong>Discrete</strong><br />
+  - The Timeline is isomorphic to the integers. Integers have <a href="#ordering-total-vs-partial-orders">total order</a>.
+  - Composed of fixed periods termed chronons.
+  - Between each pair of chronons is a <strong>finite</strong> number of chronons.  </p>
+<p><strong>Dense</strong><br />
+  - Timeline is isomorphic to rational numbers. Rational numbers have a <a href="#ordering-total-vs-partial-orders">partial order</a>
+  - Between each pair of chronons is an <strong>infinite</strong> number of other chronons.  </p>
+<p><strong>Continuous</strong><br />
+  - Timeline is isomorphic to real numbers. Real numbers have a <a href="#ordering-total-vs-partial-orders">total order</a>
+  - Between each pair of chronons is an <strong>infinite</strong> number of other chronons</p>
 <div class="admonition info">
 <p class="admonition-title">Definition</p>
 <p><strong>Chronon:</strong> the smallest representable time unit (a fixed period) used
@@ -688,7 +692,7 @@ by a system (e.g. 1 second, 1 minute).</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The slides also highlight a distinction between:</p>
+<p>Key distinction between:</p>
 <ul>
 <li>
 <p><strong>Sequence:</strong> order in which events are recorded/considered</p>
@@ -726,6 +730,7 @@ by a system (e.g. 1 second, 1 minute).</p>
 </li>
 </ul>
 </div>
+<p>There is no standard extension to SQL for dealing with time related problems. Most vendors have their own ways of handling this.</p>
 <h2 id="temporal-sql-extensions-tsql">Temporal SQL Extensions (TSQL)</h2>
 <p>Extensions mentioned:</p>
 <ul>
@@ -776,20 +781,20 @@ WHEN {temporal clause}
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>These operators relate to <strong>interval reasoning</strong> (as in Allen's Interval
-Calculus): rather than comparing singletimestamps, you compare
+Calculus): rather than comparing single timestamps, you compare
 <em>interval relationships</em> (overlap, adjacency, containment, etc.).</p>
 </div>
 <h2 id="spatial-data">Spatial Data</h2>
 <p>Spatial data represents objects in space.</p>
 <h3 id="spatial-data-types">Spatial Data Types</h3>
-<p>Types listed:</p>
+<p>Types include:</p>
 <ul>
 <li>
 <p>Points</p>
 </li>
 <li>
 <p>Regions</p>
-</li>
+<ul>
 <li>
 <p>Boxes</p>
 </li>
@@ -799,27 +804,29 @@ Calculus): rather than comparing singletimestamps, you compare
 <li>
 <p>Polynomial surfaces</p>
 </li>
+</ul>
+</li>
 <li>
 <p>Vectors</p>
 </li>
 </ul>
 <h3 id="spatial-operations">Spatial Operations</h3>
-<p>Operations listed:</p>
+<p>Operations Include:</p>
 <ul>
 <li>
-<p>Length / distance (where defined)</p>
+<p>Length</p>
 </li>
 <li>
-<p>Intersection</p>
+<p>Intersection (Do these pair of bounded lines intersect?)</p>
 </li>
 <li>
-<p>Containment</p>
+<p>Containment (Does this point lie in this region?)</p>
 </li>
 <li>
-<p>Overlap</p>
+<p>Overlap (Do these shapes overlap?)</p>
 </li>
 <li>
-<p>Centre computation</p>
+<p>Centre (Geometric centre of a shape)</p>
 </li>
 </ul>
 <h3 id="applications-properties">Applications &amp; Properties</h3>
@@ -880,14 +887,14 @@ Calculus): rather than comparing singletimestamps, you compare
 <p>Already machine-readable (word processors, spreadsheets, etc.)</p>
 </li>
 <li>
-<p>Extracted via OCR</p>
+<p>Extracted via OCR (For Scanned Text, sometimes image is needed in addition to the text so OCR may not be useful)</p>
 </li>
 </ul>
 <p>Key issue: text is <strong>essentially unstructured</strong> <span class="arithmatex">\(\Rightarrow\)</span> retrieval
 needs an index:</p>
 <ul>
 <li>
-<p>Human-built index, or</p>
+<p>Human operator index, or</p>
 </li>
 <li>
 <p>Automatically built <strong>inverted list</strong> (index of significant words
@@ -902,18 +909,15 @@ documents containing word <span class="arithmatex">\(w\)</span>".</p>
 </div>
 <p>Markup languages add structure:</p>
 <ul>
-<li>
-<p>HTML (web)</p>
-</li>
-<li>
+<li>HTML (web)</li>
+</ul>
 <p>XML / SGML (portable documents with structured data; can define new
     markup languages)</p>
-</li>
-</ul>
-<p>DB support mentioned:</p>
+<p>Character Large Objects:</p>
 <ul>
+<li><strong>CLOBs</strong> (Character Large Objects) for storing text documents</li>
 <li>
-<p><strong>CLOBs</strong> (Character Large Objects) for storing text documents</p>
+<p>Commonly supported by vendors</p>
 </li>
 <li>
 <p>Text search and retrieval facilities</p>
