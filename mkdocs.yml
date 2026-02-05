@@ -9,6 +9,7 @@ theme:
 nav:
   - Home: index.md
   - Data Types and Operations: data_types_and_operations.md
+  - DMBS Architecture: dbms_architecture.md
 
 markdown_extensions:
   - admonition
