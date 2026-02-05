@@ -1,0 +1,961 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../data_types_and_operations/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>DMBS Architecture - COMP 3211 - Advanced Databases</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dbms-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="COMP 3211 - Advanced Databases" class="md-header__button md-logo" aria-label="COMP 3211 - Advanced Databases" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            COMP 3211 - Advanced Databases
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DMBS Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="COMP 3211 - Advanced Databases" class="md-nav__button md-logo" aria-label="COMP 3211 - Advanced Databases" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    COMP 3211 - Advanced Databases
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_types_and_operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Types and Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMBS Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMBS Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dbms-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DBMS Interfaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-dbms-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level DBMS Interfaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-dbms-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core DBMS Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-catalogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Catalogue
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ddl-compiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DDL Compiler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query-compiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query Compiler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query-optimiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query Optimiser
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#precompiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Precompiler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dml-compiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DML Compiler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-database-processor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime Database Processor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stored-data-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stored Data Manager
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stored-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stored Database
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-dbms-utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other DBMS Utilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary — Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dbms-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DBMS Interfaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-dbms-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level DBMS Interfaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-dbms-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core DBMS Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-catalogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Catalogue
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ddl-compiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DDL Compiler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query-compiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query Compiler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query-optimiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query Optimiser
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#precompiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Precompiler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dml-compiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DML Compiler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-database-processor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime Database Processor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stored-data-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stored Data Manager
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stored-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stored Database
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-dbms-utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other DBMS Utilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary — Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="dbms-architecture">DBMS Architecture</h1>
+<p>These notes cover the <strong>internal architecture of a Database Management System (DBMS)</strong>, focusing on:
+- How do we interact with a DBMS,
+- what components exist inside a DBMS to process queries and manage data.</p>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>Two fundamental questions guide DBMS architecture:</p>
+<ul>
+<li><strong>What is the interface to the DBMS?</strong></li>
+<li><strong>What components exist inside a DBMS?</strong></li>
+</ul>
+<p>A DBMS acts as an intermediary between users/applications and stored data, providing abstraction, optimisation, and safe access.</p>
+<hr />
+<h2 id="dbms-interfaces">DBMS Interfaces</h2>
+<p>DBMSs provide different interfaces depending on the task being performed.</p>
+<h3 id="ddl-vs-dml">DDL vs DML</h3>
+<div class="admonition info">
+<p class="admonition-title">Definition — DDL vs DML</p>
+<p><strong>DDL (Data Definition Language)</strong><br />
+Used to define and modify the database schema.
+- Creating tables
+- Creating indexes
+- Altering schemas</p>
+<p><strong>DML (Data Manipulation Language)</strong><br />
+Used to query and modify data stored in tables.
+- Querying data
+- Inserting, updating, deleting records</p>
+</div>
+<hr />
+<h2 id="high-level-dbms-interfaces">High-Level DBMS Interfaces</h2>
+<p>A DBMS supports multiple types of users and interaction modes:</p>
+<ul>
+<li><strong>Database Administrators</strong>
+    Some DDL statements and potentially some privileged commands.</li>
+<li><strong>Casual Users</strong>
+    Interactively query using a command line.</li>
+<li><strong>Application Programmers</strong>
+    People who build database applications, these applications will require an interface for the database as well.</li>
+</ul>
+<hr />
+<h2 id="core-dbms-components">Core DBMS Components</h2>
+<p>At a high level, a DBMS consists of a frontend and a backend.
+- The frontend is user facing and is all about executing queries.
+- The backend is about actually executing the queries and also managing the data that exists behind the scenes.</p>
+<p><img alt="DBMS Diagram" src="../images/dbms.png" /></p>
+<p>The following sections describe each component.</p>
+<hr />
+<h2 id="system-catalogue">System Catalogue</h2>
+<div class="admonition info">
+<p class="admonition-title">Definition — System Catalogue</p>
+<p>The <strong>system catalogue</strong> (also called the data dictionary) stores metadata about the stored data and the database <strong>schema</strong></p>
+</div>
+<p>It contains information such as:</p>
+<ul>
+<li>Names and sizes of files</li>
+<li>Storage details of files</li>
+<li>Names and data types of data items</li>
+<li>Mappings between schemas</li>
+<li>Constraints (e.g Foreign keys)</li>
+<li>Statistical information (e.g Number of distinct value on that field)<ul>
+<li>Used in query optimiser</li>
+<li>It tells us how expensive certain operations are going to be.</li>
+</ul>
+</li>
+</ul>
+<p>The system catalogue is consulted heavily during query compilation and optimisation.
+Any query (DDL or DML) talks to the <strong>system catalogue</strong>. e.g. if a table exists, update queries will update system catalogue etc.</p>
+<hr />
+<h2 id="ddl-compiler">DDL Compiler</h2>
+<div class="admonition info">
+<p class="admonition-title">Role — DDL Compiler</p>
+<p>The <strong>DDL compiler</strong> processes schema definitions and updates the system catalogue.</p>
+</div>
+<p>Responsibilities:</p>
+<ul>
+<li>Parses DDL statements</li>
+<li>Validates schema definitions</li>
+<li>Stores schema descriptions in the system catalogue</li>
+</ul>
+<hr />
+<h2 id="query-compiler">Query Compiler</h2>
+<div class="admonition info">
+<p class="admonition-title">Role — Query Compiler</p>
+<p>The <strong>query compiler</strong> parses and validates queries, then converts them into an internal representation (query plans).</p>
+</div>
+<p>Responsibilities:</p>
+<ul>
+<li>Syntax and semantic checking of queries</li>
+<li>Compiling queries into an internal form (query plan)</li>
+<li>Passing compiled queries to the query optimiser (Consults system catalogue, of the possible algorithms, select the best algorithm for this operation)</li>
+</ul>
+<hr />
+<h2 id="query-optimiser">Query Optimiser</h2>
+<div class="admonition info">
+<p class="admonition-title">Role — Query Optimiser</p>
+<p>The <strong>query optimiser</strong> improves query execution efficiency by transforming the query plan.</p>
+</div>
+<p>Key tasks:</p>
+<ul>
+<li>Reordering and rearranging operations in the query plan</li>
+<li>Eliminating redundant operations</li>
+<li>Selecting appropriate algorithms</li>
+<li>Choosing suitable indexes</li>
+<li>Consulting the system catalogue for statistical information</li>
+<li>Generating executable code for the runtime processor</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Query optimisation is critical for performance and is one of the most complex components of a DBMS.</p>
+</div>
+<hr />
+<h2 id="precompiler">Precompiler</h2>
+<div class="admonition info">
+<p class="admonition-title">Role — Precompiler</p>
+<p>The <strong>precompiler</strong> processes application programs that contain embedded DML commands.</p>
+</div>
+<p>Responsibilities:</p>
+<ul>
+<li>Extracts DML statements from application programs</li>
+<li>Sends extracted DML to the DML compiler</li>
+<li>Leaves host-language code unchanged</li>
+</ul>
+<hr />
+<h2 id="dml-compiler">DML Compiler</h2>
+<div class="admonition info">
+<p class="admonition-title">Role — DML Compiler</p>
+<p>The <strong>DML compiler</strong> compiles data manipulation commands into executable code.</p>
+</div>
+<p>Responsibilities:</p>
+<ul>
+<li>Compiling DML statements</li>
+<li>Producing code suitable for execution by the runtime database processor</li>
+</ul>
+<hr />
+<h2 id="runtime-database-processor">Runtime Database Processor</h2>
+<div class="admonition info">
+<p class="admonition-title">Role — Runtime Database Processor</p>
+<p>The <strong>runtime database processor</strong> executes database operations.</p>
+</div>
+<p>Responsibilities:</p>
+<ul>
+<li>Executing privileged commands</li>
+<li>Executing query plans produced by the query optimiser</li>
+<li>Accessing the database through the stored data manager</li>
+</ul>
+<hr />
+<h2 id="stored-data-manager">Stored Data Manager</h2>
+<div class="admonition info">
+<p class="admonition-title">Role — Stored Data Manager</p>
+<p>The <strong>stored data manager</strong> controls access to data stored on disk.</p>
+</div>
+<p>Responsibilities:</p>
+<ul>
+<li>Managing access to disk using operating system services</li>
+<li>Controlling the shared buffer pool</li>
+<li>Handling data transfer between disk and main memory</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Definition — Buffer Pool</p>
+<p>The <strong>buffer pool</strong> is the portion of main memory used to cache database pages read from disk.</p>
+</div>
+<hr />
+<h2 id="stored-database">Stored Database</h2>
+<p>The <strong>stored database</strong> consists of:</p>
+<ul>
+<li>Data files on disk</li>
+<li>Indexes</li>
+<li>Physical storage structures</li>
+</ul>
+<p>All access to the stored database is mediated by the stored data manager.</p>
+<hr />
+<h2 id="other-dbms-utilities">Other DBMS Utilities</h2>
+<p>In addition to core components, DBMSs include utility modules:</p>
+<ul>
+<li>
+<p><strong>Loading utility</strong><br />
+  Loads files into the database</p>
+</li>
+<li>
+<p><strong>Backup utility</strong><br />
+  Dumps the database to secondary storage (typically tape)</p>
+</li>
+<li>
+<p><strong>Recovery utility</strong><br />
+  Handles failures using backup and recovery information</p>
+</li>
+<li>
+<p><strong>File reorganisation utility</strong><br />
+  Reorganises files to improve performance</p>
+</li>
+<li>
+<p><strong>Performance monitoring</strong><br />
+  Provides statistics to help the DBA decide when reorganisation is needed</p>
+</li>
+</ul>
+<hr />
+<h2 id="summary-key-takeaways">Summary — Key Takeaways</h2>
+<ul>
+<li>DBMS architecture separates <strong>interfaces</strong>, <strong>query processing</strong>, and <strong>data storage</strong></li>
+<li>DDL defines structure; DML manipulates data</li>
+<li>The system catalogue stores critical metadata</li>
+<li>Query compilation and optimisation are distinct phases</li>
+<li>Runtime execution is separated from storage management</li>
+<li>Utilities support reliability, performance, and administration</li>
+</ul>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.sections"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
