@@ -1,0 +1,896 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Data Storage - COMP 3211 - Advanced Databases</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#data-storage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="COMP 3211 - Advanced Databases" class="md-header__button md-logo" aria-label="COMP 3211 - Advanced Databases" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            COMP 3211 - Advanced Databases
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Data Storage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="COMP 3211 - Advanced Databases" class="md-nav__button md-logo" aria-label="COMP 3211 - Advanced Databases" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    COMP 3211 - Advanced Databases
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_types_and_operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Types and Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dbms_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DMBS Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="data-storage">Data Storage</h1>
+<h2 id="overview">Overview</h2>
+<p>This lecture covers how databases store and manage data efficiently on secondary storage. Core themes:</p>
+<ul>
+<li>The <strong>memory hierarchy</strong> and trade-offs between speed, cost, and capacity.</li>
+<li>Physical organisation of disks and blocks.</li>
+<li>Buffer management and replacement strategies.</li>
+<li>The <strong>Five-Minute Rule</strong> for memory vs disk trade-offs.</li>
+<li>Representation of data items, records, and blocks.</li>
+<li>Addressing, pointer swizzling, insertion, and deletion issues.</li>
+</ul>
+<blockquote>
+<p>Source: COMP3211 Advanced Databases – Data Storage :contentReference[oaicite:0]{index=0}</p>
+</blockquote>
+<hr />
+<h1 id="storage-organisation">Storage Organisation</h1>
+<h2 id="the-memory-hierarchy">The Memory Hierarchy</h2>
+<p>Databases rely on multiple levels of storage:</p>
+<ul>
+<li><strong>Cache</strong></li>
+<li><strong>Main Memory</strong></li>
+<li><strong>Secondary Storage</strong></li>
+<li><strong>Tertiary Storage</strong></li>
+</ul>
+<p>Each level differs in:</p>
+<ul>
+<li>Volatility</li>
+<li>Speed</li>
+<li>Cost</li>
+<li>Capacity</li>
+</ul>
+<h3 id="cache">Cache</h3>
+<ul>
+<li>Volatile</li>
+<li>Very fast</li>
+<li>Very expensive</li>
+<li>Limited capacity</li>
+<li>Hierarchical (Registers → L1 → L2)</li>
+</ul>
+<p>Typical values:
+- Registers: ~10¹ bytes, 1 cycle
+- L1: ~10⁴ bytes, &lt;5 cycles
+- L2: ~10⁵ bytes, 5–10 cycles</p>
+<hr />
+<h3 id="main-memory">Main Memory</h3>
+<ul>
+<li>Volatile</li>
+<li>Fast</li>
+<li>Medium capacity</li>
+<li>Typical capacity: 10⁹–10¹⁰ bytes</li>
+<li>Typical access time: ~10⁻⁸ s (20–30 cycles)</li>
+</ul>
+<hr />
+<h3 id="secondary-storage">Secondary Storage</h3>
+<ul>
+<li>Non-volatile</li>
+<li>Slow</li>
+<li>Cheap</li>
+<li>Large capacity</li>
+<li>Typical capacity: 10¹¹–10¹² bytes</li>
+<li>Typical access time: ~10⁻³ s (~10⁶ cycles)</li>
+</ul>
+<p>Used for:
+- Persistent database storage
+- Hard Disk Drives (HDDs)</p>
+<hr />
+<h3 id="tertiary-storage">Tertiary Storage</h3>
+<ul>
+<li>Non-volatile</li>
+<li>Very slow</li>
+<li>Very cheap</li>
+<li>Very large capacity</li>
+<li>Typical capacity: 10¹³–10¹⁷ bytes</li>
+<li>Typical access time: 10¹–10² seconds</li>
+</ul>
+<hr />
+<h1 id="secondary-storage-hard-disks">Secondary Storage: Hard Disks</h1>
+<h2 id="disk-structure">Disk Structure</h2>
+<p>Disk components:</p>
+<ul>
+<li><strong>Track</strong></li>
+<li><strong>Sector</strong></li>
+<li><strong>Cluster</strong></li>
+<li><strong>Cylinder</strong> (same track on all surfaces)</li>
+</ul>
+<h3 id="zone-bit-recording-zbr">Zone Bit Recording (ZBR)</h3>
+<ul>
+<li>Outer tracks are longer than inner tracks.</li>
+<li>Instead of constant bits per track:</li>
+<li>Number of sectors per track varies.</li>
+<li>Hybrid of:</li>
+<li>Constant Linear Velocity (CLV)</li>
+<li>Constant Angular Velocity (CAV)</li>
+</ul>
+<p>Improves storage density.</p>
+<hr />
+<h2 id="disk-sector-format">Disk Sector Format</h2>
+<p>Each sector contains:</p>
+<ul>
+<li><strong>Gap</strong> – separator</li>
+<li><strong>Sync</strong> – start indicator</li>
+<li><strong>Address mark</strong> – sector ID</li>
+<li><strong>Data</strong></li>
+<li><strong>ECC</strong> – error correcting code</li>
+</ul>
+<p>Example (4k Advanced Format):</p>
+<ul>
+<li>Gap + sync + mark = 15 bytes</li>
+<li>Data = 4096 bytes</li>
+<li>ECC = 100 bytes</li>
+<li>~2.7% overhead</li>
+</ul>
+<hr />
+<h1 id="disk-access-time">Disk Access Time</h1>
+<h2 id="reading">Reading</h2>
+<p>Access Time =
+- Seek Time
+- + Rotational Delay
+- + Transfer Time</p>
+<h3 id="seek-time">Seek Time</h3>
+<p>Time to move head to correct track.</p>
+<ul>
+<li>~4 ms (high-end)</li>
+<li>~15 ms (mobile drives)</li>
+</ul>
+<h3 id="rotational-delay">Rotational Delay</h3>
+<p>Average delay = time for 0.5 revolution.</p>
+<h3 id="transfer-time">Transfer Time</h3>
+<p>Transfer time = block size / transfer rate</p>
+<p>Transfer rates vary:
+- Up to 1000 Mbit/s
+- Blu-Ray ~432 Mbit/s
+- CD ~1.23 Mbit/s
+- SSD limited by interface (e.g., SATA 3000 Mbit/s)</p>
+<hr />
+<h2 id="sequential-access">Sequential Access</h2>
+<p>Sequential I/O avoids repeated seeks and rotational delays.</p>
+<p>Access time ≈
+- (block size / transfer rate)
+- + negligible overhead</p>
+<p>Sequential I/O is much cheaper than random I/O.</p>
+<hr />
+<h2 id="writing">Writing</h2>
+<p>Similar to reading unless verifying:</p>
+<p>Access Time =
+- Seek
+- + ½ rotation
+- + Write transfer
+- + Full rotation
+- + Read transfer (verification)</p>
+<hr />
+<h2 id="modifying-a-block">Modifying a Block</h2>
+<p>Steps:</p>
+<ol>
+<li>Read block</li>
+<li>Modify in memory</li>
+<li>Write block</li>
+<li>Optionally verify</li>
+</ol>
+<p>Total includes:
+- Seek
+- Rotational delays
+- Transfer times for read/write
+- Optional verify costs</p>
+<hr />
+<h1 id="block-addressing">Block Addressing</h1>
+<h2 id="physical-addressing">Physical Addressing</h2>
+<p>Cylinder–Head–Sector</p>
+<p>Problem:
+- ZBR makes mapping complex.</p>
+<h2 id="logical-block-addressing-lba">Logical Block Addressing (LBA)</h2>
+<ul>
+<li>Blocks identified by integer index.</li>
+<li>Firmware maps LBA → physical location.</li>
+<li>Enables remapping of bad blocks.</li>
+</ul>
+<hr />
+<h1 id="block-size-selection">Block Size Selection</h1>
+<p>Trade-offs:</p>
+<h3 id="large-blocks">Large Blocks</h3>
+<ul>
+<li>Fewer seeks</li>
+<li>Lower access overhead</li>
+<li>Better I/O efficiency</li>
+</ul>
+<p>But:
+- More irrelevant data read if accessing a single record.</p>
+<hr />
+<h1 id="solid-state-drives-ssd">Solid State Drives (SSD)</h1>
+<p>Characteristics:</p>
+<ul>
+<li>NAND flash-based</li>
+<li>4–5× more expensive than HDD</li>
+<li>Smaller maximum capacity (~1–2TB typical)</li>
+<li>Much higher I/O performance</li>
+<li>Asymmetric read/write (writes slower)</li>
+<li>Limited program-erase cycles (~100,000)</li>
+<li>Wear levelling required</li>
+</ul>
+<hr />
+<h1 id="hdd-vs-ssd-iops">HDD vs SSD: IOPS</h1>
+<p>IOPS =
+1 / (seek + latency + transfer)</p>
+<p>SSD:
+- Much higher IOPS
+- No mechanical seek</p>
+<hr />
+<h1 id="buffer-management">Buffer Management</h1>
+<h2 id="buffer-pool">Buffer Pool</h2>
+<ul>
+<li>Secondary storage &gt;&gt; main memory</li>
+<li>Buffer pool organised into <strong>frames</strong></li>
+<li>Each frame = 1 block + metadata</li>
+</ul>
+<hr />
+<h2 id="buffer-metadata">Buffer Metadata</h2>
+<p>Each frame has:</p>
+<ul>
+<li><strong>Pin count</strong></li>
+<li><strong>Dirty flag</strong></li>
+<li><strong>Access time</strong> (LRU)</li>
+<li><strong>Loading time</strong> (FIFO)</li>
+<li><strong>Clock flag</strong> (Clock algorithm)</li>
+</ul>
+<hr />
+<h2 id="requesting-a-block">Requesting a Block</h2>
+<ol>
+<li>If block in buffer:</li>
+<li>Increment pin count.</li>
+<li>Else if empty frame:</li>
+<li>Read block.</li>
+<li>Else:</li>
+<li>Choose replacement frame.</li>
+<li>If dirty → write to disk.</li>
+<li>Load new block.</li>
+<li>Set pin count = 1.</li>
+</ol>
+<hr />
+<h2 id="replacement-strategies">Replacement Strategies</h2>
+<p>Frame must have pin count = 0.</p>
+<h3 id="lru">LRU</h3>
+<p>Replace frame with oldest access time.</p>
+<h3 id="fifo">FIFO</h3>
+<p>Replace frame with oldest loading time.</p>
+<h3 id="clock">Clock</h3>
+<p>Approximation of LRU.</p>
+<p>Cycle through frames:
+- If not accessed in full cycle → replace.</p>
+<hr />
+<h1 id="single-vs-double-buffering">Single vs Double Buffering</h1>
+<h2 id="single-buffering">Single Buffering</h2>
+<p>Time =
+n(P + R)</p>
+<ul>
+<li>P = process time</li>
+<li>R = read time</li>
+<li>n = blocks</li>
+</ul>
+<hr />
+<h2 id="double-buffering">Double Buffering</h2>
+<p>Overlap processing and reading.</p>
+<p>If P &gt; R:</p>
+<p>Time =
+R + nP</p>
+<p>More efficient than single buffering.</p>
+<hr />
+<h1 id="the-five-minute-rule">The Five-Minute Rule</h1>
+<p>Guideline:</p>
+<blockquote>
+<p>Data referenced every five minutes should be memory resident.</p>
+</blockquote>
+<hr />
+<h2 id="cost-model">Cost Model</h2>
+<p>If block accessed every X seconds:</p>
+<p>Cost on disk:
+CD = $D / (X I)</p>
+<p>Cost in memory:
+CM = $M / P</p>
+<p>Break-even when:</p>
+<p>X = ($D P) / (I $M)</p>
+<hr />
+<h2 id="historical-examples">Historical Examples</h2>
+<h3 id="1997-hdd">1997 (HDD)</h3>
+<p>X ≈ 266 seconds (~5 minutes)</p>
+<h3 id="2007-hdd">2007 (HDD)</h3>
+<p>X ≈ 5248 seconds (~1.5 hours)</p>
+<h3 id="2007-ssd">2007 (SSD)</h3>
+<p>X ≈ 876 seconds (~15 minutes)</p>
+<h3 id="2016-ssd">2016 (SSD)</h3>
+<p>X ≈ 805 seconds (~13.5 minutes)</p>
+<hr />
+<h2 id="modern-hierarchy-observations">Modern Hierarchy Observations</h2>
+<ul>
+<li>SSD viable between DRAM and HDD.</li>
+<li>DRAM–SSD break-even ≈ 5 minutes.</li>
+<li>SSD–HDD ≈ 1.5 days.</li>
+<li>DRAM energy cost &gt; SSD.</li>
+<li>Likely transition to NVDIMM.</li>
+</ul>
+<hr />
+<h1 id="disk-organisation">Disk Organisation</h1>
+<h2 id="data-items">Data Items</h2>
+<p>Stored as bytes (8 bits).</p>
+<h3 id="numbers">Numbers</h3>
+<ul>
+<li>Integer (2 bytes example)</li>
+<li>IEEE 754 floating point:</li>
+<li>1 sign bit</li>
+<li>Mantissa</li>
+<li>Exponent</li>
+</ul>
+<hr />
+<h3 id="characters">Characters</h3>
+<p>Encodings:
+- ASCII
+- UTF-8</p>
+<hr />
+<h3 id="booleans">Booleans</h3>
+<ul>
+<li>1 byte per value</li>
+<li>Can pack bits if necessary.</li>
+</ul>
+<hr />
+<h3 id="dates">Dates</h3>
+<ul>
+<li>Days since origin (e.g., 1 Jan 1900, 1 Jan 1970)</li>
+<li>ISO8601</li>
+<li>Calendar: YYYYMMDD</li>
+<li>Ordinal: YYYYDDD</li>
+</ul>
+<hr />
+<h3 id="times">Times</h3>
+<ul>
+<li>Seconds since midnight</li>
+<li>ISO8601:</li>
+<li>HHMMSS</li>
+<li>HHMMSSFF</li>
+</ul>
+<hr />
+<h3 id="strings">Strings</h3>
+<ul>
+<li>Null-terminated</li>
+<li>Length-prefixed</li>
+<li>Fixed length</li>
+</ul>
+<hr />
+<h3 id="fixed-vs-variable-length">Fixed vs Variable Length</h3>
+<ul>
+<li>Fixed: integers, chars</li>
+<li>Variable: strings, bit arrays</li>
+<li>May include type info.</li>
+</ul>
+<hr />
+<h1 id="records">Records</h1>
+<h2 id="definition">Definition</h2>
+<p>Collection of related fields.</p>
+<p>Example:
+- Employee:
+  - Name
+  - Salary
+  - Start date</p>
+<hr />
+<h2 id="fixed-format-records">Fixed Format Records</h2>
+<p>Schema defines:
+- Fields
+- Types
+- Order
+- Meaning</p>
+<p>Efficient and compact.</p>
+<hr />
+<h2 id="variable-format-records">Variable Format Records</h2>
+<p>Self-describing.</p>
+<p>Useful for:
+- Sparse records
+- Repeating fields
+- Evolving formats</p>
+<p>More space overhead.</p>
+<hr />
+<h2 id="record-headers">Record Headers</h2>
+<p>May include:</p>
+<ul>
+<li>Record type</li>
+<li>Length</li>
+<li>Timestamp</li>
+</ul>
+<hr />
+<h1 id="blocks">Blocks</h1>
+<h2 id="block-header-may-contain">Block Header May Contain</h2>
+<ul>
+<li>File ID</li>
+<li>Block ID</li>
+<li>Record directory</li>
+<li>Free space pointer</li>
+<li>Block type</li>
+<li>Pointer to similar blocks</li>
+<li>Timestamp</li>
+</ul>
+<hr />
+<h2 id="separating-records">Separating Records</h2>
+<p>Options:</p>
+<ul>
+<li>Fixed length</li>
+<li>Special marker</li>
+<li>Lengths in header</li>
+</ul>
+<hr />
+<h2 id="spanned-vs-unspanned">Spanned vs Unspanned</h2>
+<p>Unspanned:
+- Record fits in one block.</p>
+<p>Spanned:
+- Record split across blocks.</p>
+<p>Unspanned simpler but may waste space.</p>
+<hr />
+<h1 id="sequencing">Sequencing</h1>
+<p>Ordering records by key:</p>
+<ul>
+<li>Enables efficient sequential access.</li>
+<li>Useful for merge-join.</li>
+</ul>
+<p>Options:
+- Physically contiguous
+- Linked records
+- Overflow area</p>
+<hr />
+<h1 id="indirection">Indirection</h1>
+<h2 id="physical-addressing_1">Physical Addressing</h2>
+<p>Record ID =
+Device + Cylinder + Head + Sector + Offset</p>
+<p>Rigid and inflexible.</p>
+<hr />
+<h2 id="indirect-addressing">Indirect Addressing</h2>
+<p>Record ID =
+Arbitrary bit string.</p>
+<p>Mapped to physical address via table.</p>
+<p>Allows record movement without changing ID.</p>
+<hr />
+<h1 id="address-management">Address Management</h1>
+<p>Each block/record has:</p>
+<ul>
+<li>Database address</li>
+<li>Memory address (when buffered)</li>
+</ul>
+<p>Translation table maps DB → memory.</p>
+<hr />
+<h1 id="pointer-swizzling">Pointer Swizzling</h1>
+<p>Convert DB address → memory pointer.</p>
+<p>Swizzled pointer contains:
+- Bit indicating type
+- Memory or DB address</p>
+<p>Strategies:</p>
+<ul>
+<li>Automatic</li>
+<li>On-demand</li>
+<li>No swizzling</li>
+</ul>
+<hr />
+<h2 id="unswizzling">Unswizzling</h2>
+<p>Reverse process before unpinning.</p>
+<p>Necessary because:
+- Blocks may be pinned by swizzled pointers.
+- Must restore DB addresses before eviction.</p>
+<hr />
+<h1 id="insertion">Insertion</h1>
+<h2 id="easy-case">Easy Case</h2>
+<ul>
+<li>Append to end</li>
+<li>Use deleted slot</li>
+</ul>
+<h2 id="hard-case-sequenced">Hard Case (Sequenced)</h2>
+<ul>
+<li>Insert near correct position</li>
+<li>Use overflow area</li>
+</ul>
+<p>Consider:
+- How much free space?
+- When to reorganise?</p>
+<hr />
+<h1 id="deletion">Deletion</h1>
+<p>Options:</p>
+<ul>
+<li>Immediate reclaim</li>
+<li>Mark as deleted</li>
+</ul>
+<p>Issues:
+- Free space chains
+- Wasted space
+- Dangling pointers</p>
+<hr />
+<h1 id="tombstones">Tombstones</h1>
+<p>Leave marker in:</p>
+<ul>
+<li>Map</li>
+<li>Old location</li>
+</ul>
+<p>Logical IDs may:
+- Never reuse ID
+- Keep mapping entry</p>
+<hr />
+<h1 id="summary">Summary</h1>
+<ul>
+<li>Storage hierarchy defines performance trade-offs.</li>
+<li>Disk access dominated by seek + latency.</li>
+<li>Sequential I/O much cheaper than random.</li>
+<li>Buffer management critical for performance.</li>
+<li>Five-Minute Rule gives economic guidance.</li>
+<li>Records, blocks, addressing and swizzling enable flexible storage.</li>
+<li>Insertion/deletion introduce space and consistency challenges.</li>
+</ul>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.sections"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
