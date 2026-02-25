@@ -27,3 +27,4 @@ They aim to be concise, accurate, and aligned to the lecture content.
 ## Notes
 -   [Data Types and Operations](data_types_and_operations.md)
 -   [DBMS Architecture](dbms_architecture.md)
+-   [Storage](storage.md)
