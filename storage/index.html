@@ -345,6 +345,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#storage-organisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Organisation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secondary-storage-hard-disks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secondary Storage: Hard Disks
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -390,6 +412,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#storage-organisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Organisation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secondary-storage-hard-disks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secondary Storage: Hard Disks
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -409,7 +453,7 @@
 
 <h1 id="data-storage">Data Storage</h1>
 <h2 id="overview">Overview</h2>
-<p>This lecture covers how databases store and manage data efficiently on secondary storage. Core themes:</p>
+<p>This lecture covers how databases store and manage data efficiently on secondary storage.</p>
 <ul>
 <li>The <strong>memory hierarchy</strong> and trade-offs between speed, cost, and capacity.</li>
 <li>Physical organisation of disks and blocks.</li>
@@ -418,12 +462,8 @@
 <li>Representation of data items, records, and blocks.</li>
 <li>Addressing, pointer swizzling, insertion, and deletion issues.</li>
 </ul>
-<blockquote>
-<p>Source: COMP3211 Advanced Databases – Data Storage :contentReference[oaicite:0]{index=0}</p>
-</blockquote>
-<hr />
-<h1 id="storage-organisation">Storage Organisation</h1>
-<h2 id="the-memory-hierarchy">The Memory Hierarchy</h2>
+<h2 id="storage-organisation">Storage Organisation</h2>
+<h3 id="the-memory-hierarchy">The Memory Hierarchy</h3>
 <p>Databases rely on multiple levels of storage:</p>
 <ul>
 <li><strong>Cache</strong></li>
@@ -438,7 +478,7 @@
 <li>Cost</li>
 <li>Capacity</li>
 </ul>
-<h3 id="cache">Cache</h3>
+<h4 id="cache">Cache</h4>
 <ul>
 <li>Volatile</li>
 <li>Very fast</li>
@@ -450,8 +490,7 @@
 - Registers: ~10¹ bytes, 1 cycle
 - L1: ~10⁴ bytes, &lt;5 cycles
 - L2: ~10⁵ bytes, 5–10 cycles</p>
-<hr />
-<h3 id="main-memory">Main Memory</h3>
+<h4 id="main-memory">Main Memory</h4>
 <ul>
 <li>Volatile</li>
 <li>Fast</li>
@@ -459,8 +498,7 @@
 <li>Typical capacity: 10⁹–10¹⁰ bytes</li>
 <li>Typical access time: ~10⁻⁸ s (20–30 cycles)</li>
 </ul>
-<hr />
-<h3 id="secondary-storage">Secondary Storage</h3>
+<h4 id="secondary-storage">Secondary Storage</h4>
 <ul>
 <li>Non-volatile</li>
 <li>Slow</li>
@@ -472,8 +510,7 @@
 <p>Used for:
 - Persistent database storage
 - Hard Disk Drives (HDDs)</p>
-<hr />
-<h3 id="tertiary-storage">Tertiary Storage</h3>
+<h4 id="tertiary-storage">Tertiary Storage</h4>
 <ul>
 <li>Non-volatile</li>
 <li>Very slow</li>
@@ -482,17 +519,22 @@
 <li>Typical capacity: 10¹³–10¹⁷ bytes</li>
 <li>Typical access time: 10¹–10² seconds</li>
 </ul>
-<hr />
-<h1 id="secondary-storage-hard-disks">Secondary Storage: Hard Disks</h1>
-<h2 id="disk-structure">Disk Structure</h2>
+<h2 id="secondary-storage-hard-disks">Secondary Storage: Hard Disks</h2>
+<h3 id="disk-structure">Disk Structure</h3>
 <p>Disk components:</p>
 <ul>
-<li><strong>Track</strong></li>
-<li><strong>Sector</strong></li>
+<li><strong>Track</strong> - Concentric tracks</li>
+<li><strong>Sector</strong> - Track sector (a part of the sector which belongs to a single track) and geometrical sector (The whole wedge shaped sector)</li>
 <li><strong>Cluster</strong></li>
 <li><strong>Cylinder</strong> (same track on all surfaces)</li>
 </ul>
-<h3 id="zone-bit-recording-zbr">Zone Bit Recording (ZBR)</h3>
+<p><img alt="Disk Structure" src="../images/hard_disk_structure.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Track Sector Size</p>
+<p>Track sectors at the towards the axis of the disk (inner tracks) are much smaller than tracks closer to the circumference of the disk.
+Size of the track sectors closer to the axis are the limiting factor, the size of that track sector will determine how much data you can fit in a track sector which will then determine how much data you can fit in a block on disk. </p>
+</div>
+<h4 id="zone-bit-recording-zbr">Zone Bit Recording (ZBR)</h4>
 <ul>
 <li>Outer tracks are longer than inner tracks.</li>
 <li>Instead of constant bits per track:</li>
@@ -502,8 +544,12 @@
 <li>Constant Angular Velocity (CAV)</li>
 </ul>
 <p>Improves storage density.</p>
-<hr />
-<h2 id="disk-sector-format">Disk Sector Format</h2>
+<p><img alt="ZBR" src="../images/zbr.png" /></p>
+<div class="admonition info">
+<p class="admonition-title">Difficulties</p>
+<p>Zone Bit Recording makes a few things a little more difficult such as addressing.</p>
+</div>
+<h3 id="disk-sector-format">Disk Sector Format</h3>
 <p>Each sector contains:</p>
 <ul>
 <li><strong>Gap</strong> – separator</li>
